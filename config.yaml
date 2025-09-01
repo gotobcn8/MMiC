@@ -1,0 +1,38 @@
+module: fl
+model_name: transformers
+models:
+  transformers:
+    vocab_size: 98635
+    num_classes: 4
+    embadding_dim: 32
+    token_max_len: 200
+    head_num: 8
+    nlayers: 2
+    batch_size: 16
+num_clients: 20
+epochs: 30
+learning_rate: 0.001
+dataset: agnews
+agnews:
+  max_len: 200
+  niid: true
+  partition: dirichlet
+  balance: false
+device: gpu
+device_id: 0
+join_ratio: 0.5
+client_drop_rate: 0.2
+global_rounds: 1
+# global_rounds: 100
+time_threthold: 10000
+algorithm: Ditto
+save_dir: results/
+random_clients_selected: false
+eval_gap: 1
+fedAlgorithm:
+  Ditto:
+    mu: 0.2
+    per_local_steps: 2
+    num_rounds: 10
+    dlg_eval: False
+    dlg_gap: 100

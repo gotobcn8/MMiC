@@ -1,0 +1,118 @@
+# model settings
+module: fl
+model_name: NormTextImageClassifier
+is_multimodal: True
+multimodal:
+  creamfl:
+    text: textencoder
+    image: resnet18
+    multimodal: pcme
+models:
+  NormTextImageClassifier:
+    img_dim: 1280
+    text_dim: 768
+  densenetbert:
+    img_dim: 1280
+    text_dim: 768
+
+# checkpoint: results/crisis_mmd/crisis_mmd_2024-08-23-16-26/fedopt_server.pt
+  
+# server settings
+num_clients: 30
+epochs: 3
+learning_rate: 0.005
+join_ratio: 0.2
+client_drop_rate: 0
+global_rounds: 300
+random_seeds: 777
+
+# client settings
+device: gpu
+device_id: 0
+time_threthold: 10000
+algorithm: fedopt
+save_dir: results/
+random_clients_selected: false
+eval_gap: 4
+random_seed: 777
+fine_tuning_epoch: 5
+client_settings:
+  text: 10
+  image: 10
+  multimodal: 15
+
+# dataset 
+dataset: crisis_mmd
+crisis_mmd:
+  niid: true
+  partition: dirichlet
+  balance: true
+  alpha: 0.5
+  num_classes: 8
+  batch_size: 15
+  data_dir: repository/crisis_mmd/
+  missing_modal_rate: 0.8
+  missing_modal_clients_rate: 1.0
+  is_preload: True
+creamfl:
+  server: coco
+  text: agnews
+  image: cifar10
+  multimodal: flickr30k
+agnews:
+  max_len: 300
+  niid: true
+  partition: dirichlet
+  balance: false
+  num_classes: 4
+  alpha: 0.1
+  batch_size: 15
+mnist:
+  niid: true
+  partition: dirichlet
+  balance: true
+  alpha: 0.1
+  num_classes: 10
+  batch_size: 15
+cifar10:
+  niid: true
+  partition: dirichlet
+  balance: true
+  alpha: 0.1
+  num_classes: 10
+  batch_size: 15
+flickr30k:
+  niid: true
+  partition: dirichlet
+  balance: true
+  alpha: 0.1
+  batch_size: 15
+  data_dir: repository/flickr30k
+  missing_modal_rate: 0.2
+  missing_modal_clients_rate: 0.3
+coco:
+  batch_size: 15
+
+# algorithm settings
+fedAlgorithm:
+  fedsoft:
+    estimate_samples: 256
+    count_smoother: 0.0001
+    estimation_interval: 4
+  creamfl:
+    is_inter_constrast: true
+    is_intra_constrast: true
+    kd_weight: 0.3
+    inter_intra_weight: 0.5
+    disabled_distill: false
+    not_bert: true
+
+new_clients:
+  rate: 0.2
+  started_round: 3
+  num_join_each_round: 5
+  enabled: false
+cluster:
+  cluster_num: 3
+
+training_subset_rate: 0.4

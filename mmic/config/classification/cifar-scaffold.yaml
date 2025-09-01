@@ -1,0 +1,66 @@
+module: scaffold
+model_name: cnn
+models:
+  transformers:
+    vocab_size: 98635
+    num_classes: 10
+    embadding_dim: 32
+    token_max_len: 200
+    head_num: 8
+    nlayers: 2
+    batch_size: 15
+  cnn:
+    num_classes: 10
+    dim: 1024
+    batch_size: 15
+num_clients: 50
+epochs: 10
+learning_rate: 0.005
+dataset: cifar10
+agnews:
+  max_len: 200
+  niid: true
+  partition: dirichlet
+  balance: false
+mnist:
+  niid: true
+  partition: dirichlet
+  balance: true
+cifar10:
+  niid: true
+  partition: dirichlet
+  balance: true
+  alpha: 0.1
+device: gpu
+device_id: 0
+join_ratio: 0.5
+client_drop_rate: 0.2
+global_rounds: 100
+time_threthold: 10000
+algorithm: scaffold
+save_dir: results/
+random_clients_selected: false
+eval_gap: 5
+random_seed: 777
+fine_tuning_epoch: 10
+fedAlgorithm:
+  scaffold:
+    server_learning_rate: 1.0
+  dittolsh:
+    data_volume: 200
+    mu: 0.2
+    per_local_steps: 2
+    num_rounds: 10
+    dlg_eval: False
+    dlg_gap: 100
+    hash_num: 12
+    cv_dim: 3072
+new_clients:
+  rate: 0.2
+  started_round: 30
+  num_join_each_round: 5
+  enabled: true
+cluster:
+  cluster_num: 10
+  auto: True
+  start_to_cluster: 20

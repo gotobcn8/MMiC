@@ -1,0 +1,57 @@
+module: fl
+model_name: cnn
+models:
+  transformers:
+    vocab_size: 98635
+    num_classes: 10
+    embadding_dim: 32
+    token_max_len: 200
+    head_num: 8
+    nlayers: 2
+    batch_size: 15
+  cnn:
+    num_classes: 10
+    dim: 1600
+    batch_size: 15
+num_clients: 25
+epochs: 5
+learning_rate: 0.005
+dataset: cifar10
+cifar10:
+  niid: true
+  partition: dirichlet
+  balance: false
+  alpha: 0.1
+mnist:
+  niid: true
+  partition: dirichlet
+  balance: true
+device: gpu
+device_id: 0
+join_ratio: 0.5
+client_drop_rate: 0.2
+global_rounds: 6
+time_threthold: 10000
+algorithm: ofchp
+save_dir: results/
+random_clients_selected: false
+eval_gap: 1
+random_seed: 777
+fine_tuning_epoch: 5
+fedAlgorithm:
+  ofchp:
+    data_volume: 200
+    mu: 0.2
+    per_local_steps: 2
+    num_rounds: 10
+    dlg_eval: False
+    dlg_gap: 100
+    hash_num: 12
+    cv_dim: 3072
+new_clients:
+  rate: 0.2
+  started_round: 3
+  num_join_each_round: 5
+  enabled: true
+cluster:
+  cluster_num: 10
